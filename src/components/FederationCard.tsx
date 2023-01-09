@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button } from './Button';
+import { Tabs, TabList, TabPanels } from '@chakra-ui/react'
+import { Button} from './Button';
 import { Federation } from '../federation.types';
 
 interface FederationProps {
@@ -11,6 +12,7 @@ export const FederationCard = (props: FederationProps): JSX.Element => {
     const { mint_pubkey, details } = props.federation;
 
     const [information, setInformation] = useState<boolean>(false);
+    const [showDetails, setShowDetails] = useState<boolean>(false);
 
     const getFederationName = (name: string): string => {
         return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
@@ -31,8 +33,19 @@ export const FederationCard = (props: FederationProps): JSX.Element => {
                     </div>
                     <section>
                         <Button label='more info' onClick={() => setInformation(!information)} />
+                        <Button label='details' onClick={() => setShowDetails(!showDetails)} />
                     </section>
                 </div>
+                {showDetails && <Tabs>
+                    <TabList>
+                        TabHeader
+                    </TabList>
+
+                    <TabPanels>
+                        Tab
+                    </TabPanels>
+                </Tabs>}
+
                 {information && (
                     <div className='more-information'>
                         <p>
