@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HStack, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { Menu, MenuButton, MenuItem, MenuList, Flex, Spacer } from '@chakra-ui/react';
 import { Button as ChakraButton } from '@chakra-ui/react';
 import { FiChevronDown } from 'react-icons/fi';
 import { Federation, Filter, Sort } from '../federation.types';
@@ -23,9 +23,10 @@ export const Header = (props: HeaderProps): JSX.Element => {
     };
 
     return (
-        <HStack>
+        <Flex>
             <Button label='Connect Federation' onClick={props.toggleShowConnectFed} />
-            <HStack flexDirection='row' alignItems={'center'}>
+            <Spacer />
+            <Flex alignItems='center' gap='2'>
                 {/* sort menu button */}
                 <Menu>
                     <MenuButton as={ChakraButton} rightIcon={<FiChevronDown />}>
@@ -48,7 +49,7 @@ export const Header = (props: HeaderProps): JSX.Element => {
                         <MenuItem onClick={() => props.filterCallback(undefined)}>All</MenuItem>
                     </MenuList>
                 </Menu>
-            </HStack>
-        </HStack>
+            </Flex>
+        </Flex>
     );
 };
