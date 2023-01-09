@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HStack, Input, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { HStack, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { Button as ChakraButton } from '@chakra-ui/react';
 import { FiChevronDown } from 'react-icons/fi';
 import { Federation, Filter, Sort } from '../federation.types';
@@ -25,7 +25,6 @@ export const Header = (props: HeaderProps): JSX.Element => {
     return (
         <HStack>
             <Button label='Connect Federation' onClick={props.toggleShowConnectFed} />
-            <Input value={searchValue} placeholder='search for item' onChange={handleSearch} />
             <HStack flexDirection='row' alignItems={'center'}>
                 {/* sort menu button */}
                 <Menu>
