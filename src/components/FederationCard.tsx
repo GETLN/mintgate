@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs, TabList, TabPanels } from '@chakra-ui/react'
-import { Button} from './Button';
 import { Federation } from '../federation.types';
+import { Button, InfoTabHeader, InfoTab } from '.';
 
 interface FederationProps {
     federation: Federation;
@@ -11,7 +11,6 @@ interface FederationProps {
 export const FederationCard = (props: FederationProps): JSX.Element => {
     const { mint_pubkey, details } = props.federation;
 
-    const [information, setInformation] = useState<boolean>(false);
     const [showDetails, setShowDetails] = useState<boolean>(false);
 
     const getFederationName = (name: string): string => {
@@ -32,35 +31,18 @@ export const FederationCard = (props: FederationProps): JSX.Element => {
                         </section>
                     </div>
                     <section>
-                        <Button label='more info' onClick={() => setInformation(!information)} />
                         <Button label='details' onClick={() => setShowDetails(!showDetails)} />
                     </section>
                 </div>
                 {showDetails && <Tabs>
                     <TabList>
-                        TabHeader
+                        <InfoTabHeader />
                     </TabList>
 
                     <TabPanels>
-                        Tab
+                        <InfoTab {...details}/>
                     </TabPanels>
                 </Tabs>}
-
-                {information && (
-                    <div className='more-information'>
-                        <p>
-                            <span>Federation Description: </span>
-                            {details.description}
-                        </p>
-                        <section>
-                            <p>
-                                <span>Date Created: </span>
-                                {details.date_created}
-                            </p>
-                            <Button label='More Action' onClick={props.onClick} />
-                        </section>
-                    </div>
-                )}
             </main>
         </>
     );
