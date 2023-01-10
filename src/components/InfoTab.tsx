@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
-import { Tab, TabPanel } from '@chakra-ui/react'
+import React from 'react';
+import { TabPanel } from '@chakra-ui/react'
+import { TabHeader } from '.';
 
-interface InfoTabHeaderProps {
+export const InfoTabHeader = (): JSX.Element => {
+    return (
+        <TabHeader>
+            Info
+        </TabHeader>
+    )
 }
 
 interface InfoTabProps {
     date_created: string;
     description: string;
-}
-
-export const InfoTabHeader = (props: InfoTabHeaderProps): JSX.Element => {
-    return <Tab>Info</Tab>
 }
 
 export const InfoTab = React.memo((props: InfoTabProps): JSX.Element => {
