@@ -4,3 +4,4 @@ export { Header } from './Header'
 export { Input } from './Input';
 export { ConnectFederation } from './ConnectFederation';
 export { InfoTab, InfoTabHeader } from './InfoTab';
+export { DepositTab, DepositTabHeader } from './DepositTab';
