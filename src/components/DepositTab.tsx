@@ -68,8 +68,25 @@ export const DepositTab = React.memo((_: DepositTabProps): JSX.Element => {
                     }
                 }
             case DepositStatus.Complete:
+                let completeTxProps: ShowTransactionProps = {
+                    txid: 'de3d5bf1e3c1b3be2a1e025825f751629390ad60c8f91723e330f2356d99c59b',
+                    address: 'bc1qgf60crqtlxn7279tgh8lsxzagmu97cyuwtykxwv026s9hwg427fsjvw7uz',
+                    amount_btc: 0.00013813,
+                    confirmations: 3,
+                    confirmationsRequired: 3,
+                }
                 return {
-                    content: <ShowDepositAddress />,
+                    content: <ShowTransaction {...completeTxProps} />,
+                    actions: [
+                        {
+                            label: 'Close',
+                            onClick: () => setDepositStatus(DepositStatus.Address)
+                        },
+                    ],
+                    infographic: {
+                        imgUrl: 'https://iconarchive.com/download/i104526/cjdowner/cryptocurrency/Bitcoin.ico',
+                        altText: 'Bitcoin Address QR Code'
+                    }
                 }
         }
     }
