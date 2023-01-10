@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tabs, TabList, TabPanels } from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, Divider } from '@chakra-ui/react'
 import { Federation } from '../federation.types';
 import { Button, InfoTabHeader, InfoTab, DepositTab, DepositTabHeader } from '.';
 
@@ -8,10 +8,36 @@ interface FederationProps {
     onClick: () => void;
 }
 
+enum OpenTab {
+    Off = -1,
+    InfoTab = 0,
+    DepositTab = 1,
+}
+
 export const FederationCard = (props: FederationProps): JSX.Element => {
     const { mint_pubkey, details } = props.federation;
 
     const [showDetails, setShowDetails] = useState<boolean>(false);
+    const [tab, setOpenTab] = useState<{ open: OpenTab, mru: OpenTab }>({ open: OpenTab.Off, mru: OpenTab.Off });
+
+    const tabControl = (openTab: number) => {
+        setOpenTab({ open: openTab, mru: openTab });
+        setShowDetails(true);
+    };
+
+    const detailsControl = () => {
+        let nextState = !showDetails;
+        if (nextState) {
+            // If we are going to show details and there is no open tab,
+            // start off with the InfoTab, otherwise, open the most recently open tab
+            tab.mru < 0 ?
+                setOpenTab({ open: OpenTab.InfoTab, mru: OpenTab.InfoTab }) :
+                setOpenTab({ open: tab.mru, mru: tab.mru });
+        } else {
+            setOpenTab({ open: OpenTab.Off, mru: tab.mru });
+        }
+        setShowDetails(nextState);
+    };
 
     const getFederationName = (name: string): string => {
         return name.charAt(0).toUpperCase() + name.charAt(1).toUpperCase();
@@ -31,20 +57,24 @@ export const FederationCard = (props: FederationProps): JSX.Element => {
                         </section>
                     </div>
                     <section>
-                        <Button label='details' onClick={() => setShowDetails(!showDetails)} />
+                        <Button label='details' onClick={detailsControl} />
                     </section>
                 </div>
-                {showDetails && <Tabs>
-                    <TabList>
+                <Tabs index={tab.open} onChange={tabControl} pt={3} variant="unstyled">
+                    <TabList gap={2}>
                         <InfoTabHeader />
                         <DepositTabHeader />
                     </TabList>
-
-                    <TabPanels>
-                        <InfoTab {...details} />
-                        <DepositTab {...details} />
-                    </TabPanels>
-                </Tabs>}
+                    {showDetails &&
+                        <>
+                            <Divider />
+                            <TabPanels>
+                                <InfoTab {...details} />
+                                <DepositTab {...details} />
+                            </TabPanels>
+                        </>
+                    }
+                </Tabs>
             </main>
         </>
     );
