@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tab, TabPanel, Stack, Card, CardBody, CardFooter, Image, Heading, Text, Spacer, Flex, Link, Progress } from '@chakra-ui/react'
+import { Tab, TabPanel, Stack, Card, CardBody, CardFooter, Image, Heading, Text, Spacer, Flex, Link, Progress, Badge } from '@chakra-ui/react'
 import { Button } from '.';
 
 
@@ -175,10 +175,7 @@ interface ShowTransactionProps {
 
 const ShowTransaction = (props: ShowTransactionProps) => {
     const { txid, address, amount_btc, confirmations, confirmationsRequired } = props;
-
-    const computeProgress = () => {
-        return 100 * confirmations / confirmationsRequired;
-    }
+    let progress = 100 * confirmations / confirmationsRequired
 
     return (
         <>
@@ -189,10 +186,17 @@ const ShowTransaction = (props: ShowTransactionProps) => {
                 <Text fontSize="lg" mr={2}>Amount:</Text>
                 <Text fontSize="lg" fontWeight="bold">{amount_btc} BTC</Text>
             </Flex>
-            <Text mt={4}>
-                Confirmations: {confirmations} / {confirmationsRequired} required
-            </Text>
-            <Progress value={computeProgress()} size='xs' colorScheme='orange' hasStripe />
+            <Flex alignItems='center' gap={1}>
+                <Text mt={4}>
+                    Confirmations: {confirmations} / {confirmationsRequired} required
+                </Text>
+                <Spacer />
+                {progress < 100 ?
+                    <Badge colorScheme='red' variant='outline'>Pending</Badge> :
+                    <Badge colorScheme='orange' variant='outline'>Complete</Badge>
+                }
+            </Flex>
+            <Progress value={progress} size='xs' colorScheme='orange' hasStripe />
             <Text mt={2}>
                 Sent to address: {address}
             </Text>
