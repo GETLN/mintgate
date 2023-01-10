@@ -16,17 +16,23 @@ export const DepositTabHeader = (): JSX.Element => {
     return <Tab>Deposit</Tab>
 }
 
-interface DepositTabProps {
+// TODO: Make API call to get new deposit address
+const getNewDepositAddress = (): string => {
+    return 'bc1qgf60crqtlxn7279tgh8lsxzagmu97cyuwtykxwv026s9hwg427fsjvw7uz';
 }
+
+interface DepositTabProps { }
 
 export const DepositTab = React.memo((_: DepositTabProps): JSX.Element => {
     const [depositStatus, setDepositStatus] = useState<DepositStatus>(DepositStatus.Address);
+    let mock_address = getNewDepositAddress();
+    const mock_txid = 'de3d5bf1e3c1b3be2a1e025825f751629390ad60c8f91723e330f2356d99c59b';
 
     const getDepositCardProps = (): DepositCardProps => {
         switch (depositStatus) {
             case DepositStatus.Address:
                 return {
-                    content: <ShowDepositAddress />,
+                    content: <ShowDepositAddress address={mock_address} />,
                     actions: [
                         {
                             label: 'Share Address',
@@ -44,8 +50,8 @@ export const DepositTab = React.memo((_: DepositTabProps): JSX.Element => {
                 }
             case DepositStatus.Pending:
                 let pendingTxProps: ShowTransactionProps = {
-                    txid: 'de3d5bf1e3c1b3be2a1e025825f751629390ad60c8f91723e330f2356d99c59b',
-                    address: 'bc1qgf60crqtlxn7279tgh8lsxzagmu97cyuwtykxwv026s9hwg427fsjvw7uz',
+                    txid: mock_txid,
+                    address: mock_address,
                     amount_btc: 0.00013813,
                     confirmations: 1,
                     confirmationsRequired: 3,
@@ -69,8 +75,8 @@ export const DepositTab = React.memo((_: DepositTabProps): JSX.Element => {
                 }
             case DepositStatus.Complete:
                 let completeTxProps: ShowTransactionProps = {
-                    txid: 'de3d5bf1e3c1b3be2a1e025825f751629390ad60c8f91723e330f2356d99c59b',
-                    address: 'bc1qgf60crqtlxn7279tgh8lsxzagmu97cyuwtykxwv026s9hwg427fsjvw7uz',
+                    txid: mock_txid,
+                    address: mock_address,
                     amount_btc: 0.00013813,
                     confirmations: 3,
                     confirmationsRequired: 3,
@@ -143,10 +149,11 @@ export const DepositCard = React.memo((props: DepositCardProps): JSX.Element => 
     </Card>
 });
 
+interface ShowDepositAddressProps {
+    address: string,
+}
 
-const ShowDepositAddress = (): JSX.Element => {
-    let address = "1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX";
-
+const ShowDepositAddress = ({ address }: ShowDepositAddressProps): JSX.Element => {
     return <>
         <Heading size='md'>Bitcoin Deposit to Federation</Heading>
 
