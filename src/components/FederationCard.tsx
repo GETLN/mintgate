@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tabs, TabList, TabPanels, Divider } from '@chakra-ui/react'
+import { Tabs, TabList, TabPanels, Divider, Collapse } from '@chakra-ui/react'
 import { Federation } from '../federation.types';
 import { Button, InfoTabHeader, InfoTab, DepositTab, DepositTabHeader } from '.';
 
@@ -65,15 +65,13 @@ export const FederationCard = (props: FederationProps): JSX.Element => {
                         <InfoTabHeader />
                         <DepositTabHeader />
                     </TabList>
-                    {showDetails &&
-                        <>
-                            <Divider />
-                            <TabPanels>
-                                <InfoTab {...details} />
-                                <DepositTab {...details} />
-                            </TabPanels>
-                        </>
-                    }
+                    <Collapse in={showDetails} animateOpacity>
+                        <Divider />
+                        <TabPanels>
+                            <InfoTab {...details} />
+                            <DepositTab {...details} />
+                        </TabPanels>
+                    </Collapse>
                 </Tabs>
             </main>
         </>
