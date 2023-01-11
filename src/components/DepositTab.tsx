@@ -27,8 +27,6 @@ enum DepositStatus {
   Complete,
 }
 
-interface DepositTabProps {}
-
 // TODO: Make API call to get new deposit address
 const getNewDepositAddress = (): string => {
   return "bc1qgf60crqtlxn7279tgh8lsxzagmu97cyuwtykxwv026s9hwg427fsjvw7uz";
@@ -254,8 +252,10 @@ const ShowTransaction = (props: ShowTransactionProps) => {
       <Progress value={progress} size="xs" colorScheme="orange" hasStripe />
       <Text mt={2}>Sent to address: {address}</Text>
       <Text mt={2}>
-        Transaction id:{" "}
-        <Link href={`https://mempool.space/tx/${txid}`}>{txid}</Link>
+        Transaction ID:{" "}
+        <Link href={`https://mempool.space/tx/${txid}`} target="_blank">
+          {txid}
+        </Link>
       </Text>
     </>
   );
