@@ -36,7 +36,7 @@ export const Header = React.memo(function Header(
 					fontSize={{ base: '12px', md: '13px', lg: '16px' }}
 					p={{ base: '10px', md: '13px', lg: '16px' }}
 				>
-					Connect Federeation
+					Connect Federation
 				</Button>
 			</Flex>
 			<Spacer />
