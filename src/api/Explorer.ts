@@ -38,9 +38,17 @@ export interface TransactionProof {
 	transactionHash: string;
 }
 
+interface ChaintipCache {
+	// block height at current chain tip
+	chaintip: number;
+	// timestamp when the chaintip was fetched
+	fetched: number;
+}
+
 export class BlockstreamExplorer implements Explorer {
 	// Base url for the blockstream explorer
 	public baseUrl: string;
+	chaintip: ChaintipCache | undefined;
 
 	constructor(baseUrl: string) {
 		this.baseUrl = baseUrl;
@@ -156,12 +164,25 @@ export class BlockstreamExplorer implements Explorer {
 	};
 
 	fetchLatestBlockHeight = async (): Promise<number> => {
+		const time = Date.now();
+
+		// if we have a cached chaintip and it's less than 10 minutes old, return it
+		// this approximates the latest block height, but can be slightly off
+		if (this.chaintip !== undefined && time - this.chaintip.fetched <= 600000) {
+			console.log('Using cached chaintip', this.chaintip.chaintip);
+			return Promise.resolve(this.chaintip.chaintip);
+		}
+
 		try {
 			const res: Response = await fetch(`${this.baseUrl}/blocks/tip/height`);
 
 			if (res.ok) {
 				const height = await res.json();
-				return Promise.resolve(Number(height));
+
+				// cache the latest chain tip
+				this.chaintip = { chaintip: Number(height), fetched: time };
+
+				return Promise.resolve(this.chaintip.chaintip);
 			}
 
 			throw new Error('Error fetching latest block height');
